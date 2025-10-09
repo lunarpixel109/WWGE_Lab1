@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - MoveableObject
+  - Death
   layers:
   - Default
   - TransparentFX
