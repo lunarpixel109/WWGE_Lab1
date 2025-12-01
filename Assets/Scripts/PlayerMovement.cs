@@ -36,6 +36,10 @@ class PlayerMovement : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && isGrounded) {
             velocity.y = 5;
         }
+        
+        if (isGrounded && velocity.y < 0) {
+            velocity.y = 0;
+        }
     }
     
     

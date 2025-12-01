@@ -1,30 +1,45 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour {
         
-    public float health;
-    float currentHealth;
-
+    [Header("Health Settings")]
+    public float maxHealth;
     public Vector3 respawnPosition;
 
-    CharacterController controller;
+    [Header("HUD Settings")] 
+    public Slider healthBar;
+    public TextMeshProUGUI healthText;
+    
+    float _currentHealth;
+    CharacterController _controller;
     
     private void Start() {
-        controller = GetComponent<CharacterController>();
+        _controller = GetComponent<CharacterController>();
+        
+        _currentHealth = maxHealth;
+        
+        healthBar.maxValue = maxHealth;
+        healthBar.minValue = 0;
+        healthBar.value = maxHealth;
+        healthText.text = $"{_currentHealth}/{maxHealth}";
     }
 
     public void Damage(float damage) {
-        health -= damage;
+        _currentHealth -= damage;
+        healthText.text = $"{_currentHealth}/{maxHealth}";
 
-        if (health <= 0) {
+        if (_currentHealth <= 0) {
             Kill();
         }
     }
 
     public void Kill() {
-        controller.enabled = false;
+        _controller.enabled = false;
         transform.position = respawnPosition;
-        controller.enabled = true;
+        _controller.enabled = true;
     }
 }

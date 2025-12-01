@@ -15,9 +15,11 @@ namespace DefaultNamespace {
         public GameObject pauseMenu;
         
         private void Start() {
-            isPaused = false;
+            isPaused = true;
             
             resumeButton.onClick.AddListener(TogglePause);
+            
+            TogglePause();
         }
 
 

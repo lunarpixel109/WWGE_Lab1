@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837c6e9a71e24fb8965543637b3efea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
-  power: 150
-  upwardsModifier: 5
+  radius: 10
+  power: 317
+  upwardsModifier: 10
+  falloff: 0.004

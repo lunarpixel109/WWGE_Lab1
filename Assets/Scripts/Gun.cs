@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour {
     [Tooltip("The rate of fire for primary ammo")] public float primaryFireRate;
     [Tooltip("The rate of fire for secondary ammo")] public float secondaryFireRate;
     public GameObject altSpawnPoint;
+    [FormerlySerializedAs("hudEnabled")] public bool isPlayer;
     
     [Header("Ammo")]
     public ScriptableObjects.Ammo primaryAmmo;
@@ -23,7 +24,6 @@ public class Gun : MonoBehaviour {
     
     [Header("Gun HUD Settings")]
     public TextMeshProUGUI text;
-
     public GameObject bulletHole;
     
     private bool allowedPrimaryFire = true;
@@ -58,24 +58,28 @@ public class Gun : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse0)) {
-            if (allowedPrimaryFire && _currentPrimaryAmmo > 0 && Time.timeScale > 0) {
-                TryFire();
+
+
+        if (isPlayer) {
+            if (Input.GetKey(KeyCode.Mouse0)) {
+                if (allowedPrimaryFire && _currentPrimaryAmmo > 0 && Time.timeScale > 0) {
+                    TryFire();
+                }
             }
-        }
 
-        if (Input.GetKey(KeyCode.Mouse1) && Time.timeScale > 0) {
-            TryAltFire();
-        }
-        
-        if (Input.GetKey(KeyCode.R) && Time.timeScale > 0) {
-            isReloading = true;
-            _primaryReloadTimer = primaryAmmo.ReloadTime;
-            _alternateReloadTimer = secondaryAmmo.ReloadTime;
-        }
-        
-        text.text = $"{primaryAmmo.AmmoTitle}: {_currentPrimaryAmmo}/{primaryMagSize}\n{secondaryAmmo.AmmoTitle}: {_currentSecondaryAmmo}/{secondaryMagSize}";
+            if (Input.GetKey(KeyCode.Mouse1) && Time.timeScale > 0) {
+                TryAltFire();
+            }
 
+            if (Input.GetKey(KeyCode.R) && Time.timeScale > 0) {
+                isReloading = true;
+                _primaryReloadTimer = primaryAmmo.ReloadTime;
+                _alternateReloadTimer = secondaryAmmo.ReloadTime;
+            }
+
+            text.text
+                = $"{primaryAmmo.AmmoTitle}: {_currentPrimaryAmmo}/{primaryMagSize}\n{secondaryAmmo.AmmoTitle}: {_currentSecondaryAmmo}/{secondaryMagSize}";
+        }
         // if (Input.GetKeyUp(KeyCode.Mouse0)) {
         //     tryFire = false;
         // }
@@ -119,13 +123,19 @@ public class Gun : MonoBehaviour {
         
     }
 
-    void TryFire() {
+    public void TryFire() {
         _currentPrimaryAmmo--;
         if (primaryAmmo.SpawnsGameObject) { // if it is a physical weapon
             var bullet = Instantiate(primaryAmmo.BulletPrefab, altSpawnPoint.transform);
             bullet.GetComponent<Rigidbody>().AddForce(altSpawnPoint.transform.forward * primaryAmmo.Power);
         } else { // if the weapon is hitscan
-            Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Ray ray;
+            if (isPlayer) {
+                ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            } else {
+                ray = new Ray(altSpawnPoint.transform.position, altSpawnPoint.transform.forward);
+            }
+
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform.tag == "MoveableObject") {
@@ -154,7 +164,7 @@ public class Gun : MonoBehaviour {
         
     }
     
-    void TryAltFire() {
+    public void TryAltFire() {
         if (allowedSecondaryFire && _currentSecondaryAmmo > 0) {
             _currentSecondaryAmmo--;
             if (secondaryAmmo.SpawnsGameObject) { // if it is a physical weapon
@@ -174,10 +184,10 @@ public class Gun : MonoBehaviour {
                     }
 
 
-                    // Health objHealth = hit.transform.GetComponent<Health>();
-                    // if (objHealth) {
-                    //     objHealth.Damage(secondaryAmmo.Power);
-                    // }
+                    Health objHealth = hit.transform.GetComponent<Health>();
+                    if (objHealth) {
+                        objHealth.Damage(secondaryAmmo.Power);
+                    }
 
                     var tempBullet = Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
                     tempBullet.transform.parent = hit.transform;
@@ -190,6 +200,11 @@ public class Gun : MonoBehaviour {
 
         }
         
+    }
+
+    void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(altSpawnPoint.transform.position, altSpawnPoint.transform.forward);
     }
     
     
