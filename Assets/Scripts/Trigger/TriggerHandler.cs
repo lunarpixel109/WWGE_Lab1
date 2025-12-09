@@ -3,18 +3,10 @@ using UnityEngine;
 
 public class TriggerHandler : MonoBehaviour
 {
-    
-    CharacterController controller;
-
-    private void Start() {
-        controller = GetComponent<CharacterController>();
-    }
-
-
     private void OnTriggerEnter(Collider other) {
+        // Kill player if death tag :)
         if (other.CompareTag("Death")) {
-            var health = GetComponent<Health>();
-            health.Kill();
+            GetComponent<Health>().Kill();
         }
     }
 }

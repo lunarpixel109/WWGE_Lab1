@@ -17,3 +17,4 @@ MonoBehaviour:
   SpawnsGameObject: 0
   BulletPrefab: {fileID: 0}
   Power: 100
+  fireSound: {fileID: 8300000, guid: d41ff319d61b04149b42f08805b6f57d, type: 3}

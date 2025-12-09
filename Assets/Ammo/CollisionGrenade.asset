@@ -16,4 +16,5 @@ MonoBehaviour:
   ReloadTime: 1
   SpawnsGameObject: 1
   BulletPrefab: {fileID: 366731044256820595, guid: b7de7814ebf04074fa6891ed98f95470, type: 3}
-  Power: 100
+  Power: 500
+  fireSound: {fileID: 8300000, guid: 58049fd2650d8194f90cc42773a6c6c5, type: 3}

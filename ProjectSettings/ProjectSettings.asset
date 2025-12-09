@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: WWGE_Lab1
+  companyName: LunarPixel
+  productName: WWGE Coursework
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -844,8 +844,8 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: WWGE_Lab1
-  metroPackageVersion: 
+  metroPackageName: WWGELab1
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -853,7 +853,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: WWGE_Lab1
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: WWGE_Lab1
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
